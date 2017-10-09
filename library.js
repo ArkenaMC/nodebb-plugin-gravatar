@@ -49,7 +49,7 @@ plugin.list = function(data, callback) {
 		data.pictures.push({
 			type: 'gravatar',
 			url: getGravatarUrl(userData.email, userData.username),
-			text: 'Gravatar'
+			text: 'Minecraft Avatar'
 		});
 
 		callback(null, data);
