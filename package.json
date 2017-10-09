@@ -1,11 +1,11 @@
 {
-  "name": "nodebb-plugin-gravatar",
-  "version": "2.0.5",
-  "description": "Allows users to use their Gravatar on your forum",
+  "name": "nodebb-plugin-minotar",
+  "version": "1.0.0",
+  "description": "Allows users to use their Minecraft avatar for your NodeBB forum",
   "main": "library.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/julianlam/nodebb-plugin-gravatar"
+    "url": "https://github.com/ArkenaMC/nodebb-plugin-minotar"
   },
   "keywords": [
     "nodebb",
@@ -13,12 +13,12 @@
     "gravatar"
   ],
   "author": {
-    "name": "Julian Lam",
-    "email": "julian@nodebb.org"
+    "name": "Adam Blunt",
+    "email": "letstalk@adamblunt.me"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/julianlam/nodebb-plugin-gravatar/issues"
+    "url": "https://github.com/ArkenaMC/nodebb-plugin-minotar/issues"
   },
   "readmeFilename": "README.md",
   "nbbpm": {
