@@ -1,16 +1,10 @@
 {
-	"id": "nodebb-plugin-gravatar",
-	"url": "https://github.com/NodeBB/nodebb-plugin-gravatar",
+	"id": "nodebb-plugin-minotar",
+	"url": "https://github.com/ArkenaMC/nodebb-plugin-minotar",
 	"library": "./library.js",
 	"hooks": [
 		{ "hook": "static:app.load", "method": "init" },
-		{ "hook": "filter:admin.header.build", "method": "addAdminNavigation" },
 		{ "hook": "filter:user.listPictures", "method": "list" },
-		{ "hook": "filter:user.getPicture", "method": "get" },
-		{ "hook": "filter:users.get", "method": "onForceEnabled" }
-	],
-	"templates": "static/templates",
-	"acpScripts": [
-		"static/lib/admin.js"
+		{ "hook": "filter:user.getPicture", "method": "get" }
 	]
 }
