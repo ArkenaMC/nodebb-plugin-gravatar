@@ -5,50 +5,19 @@ var user = module.parent.require('./user'),
 	db = module.parent.require('./database'),
 	winston = module.parent.require('winston'),
 	async = module.parent.require('async'),
-	crypto = require('crypto'),
 
 	controllers = require('./lib/controllers'),
 	plugin = {};
 
 plugin.init = function(params, callback) {
-	var router = params.router,
-		hostMiddleware = params.middleware,
-		hostControllers = params.controllers;
-
-	router.get('/admin/plugins/gravatar', hostMiddleware.admin.buildHeader, controllers.renderAdminPage);
-	router.get('/api/admin/plugins/gravatar', controllers.renderAdminPage);
-
-	meta.settings.get('gravatar', function(err, settings) {
-		if (err) {
-			winston.error('[plugin/gravatar] Could not retrieve plugin settings! Using defaults.');
-			plugin.settings = {
-				default: false,
-				force: false
-			};
-			return;
-		}
-
-		plugin.settings = settings;
-	});
-
 	callback();
-};
-
-plugin.addAdminNavigation = function(header, callback) {
-	header.plugins.push({
-		route: '/plugins/gravatar',
-		icon: 'fa-picture',
-		name: 'Gravatar'
-	});
-
-	callback(null, header);
 };
 
 plugin.list = function(data, callback) {
 	user.getUserFields(data.uid, ['email', 'username'], function(err, userData) {
 		data.pictures.push({
-			type: 'gravatar',
-			url: getGravatarUrl(userData.email, userData.username),
+			type: 'mcavatar',
+			url: getAvatarUrl(userData.email, userData.username),
 			text: 'Minecraft Avatar'
 		});
 
@@ -57,9 +26,9 @@ plugin.list = function(data, callback) {
 };
 
 plugin.get = function(data, callback) {
-	if (data.type === 'gravatar') {
-		user.getUserFields(data.uid, ['email', 'username'], function(err, userData) {
-			data.picture = getGravatarUrl(userData.email, userData.username);
+	if (data.type === 'mcavatar') {
+		user.getUserFields(data.uid, ['username'], function(err, userData) {
+			data.picture = getAvatarUrl(userData.username);
 			callback(null, data);
 		});
 	} else {
@@ -70,7 +39,7 @@ plugin.get = function(data, callback) {
 plugin.updateUser = function(data, callback) {
 	if (plugin.settings.default === 'on') {
 		winston.verbose('[plugin/gravatar] Updating uid ' + data.user.uid + ' to use gravatar');
-		data.user.picture = getGravatarUrl(data.user.email, data.user.username);
+		data.user.picture = getAvatarUrl(data.user.username);
 		callback(null, data);
 	} else {
 		// No transformation
@@ -78,76 +47,23 @@ plugin.updateUser = function(data, callback) {
 	}
 };
 
-plugin.onForceEnabled = function(users, callback) {
-	if (plugin.hasOwnProperty('settings') && plugin.settings.force === 'on') {
-		async.map(users, function(userObj, next) {
-			if (!userObj) {
-				return next(null, userObj);
-			}
-
-			if (!userObj.email) {
-				db.getObjectField('user:' + userObj.uid, 'email', function(err, email) {
-					userObj.picture = getGravatarUrl(email, userObj.username);
-					next(null, userObj);
-				});
-			} else {
-				userObj.picture = getGravatarUrl(userObj.email, userObj.username);
-				next(null, userObj);
-			}
-		}, callback);
-	} else if (plugin.hasOwnProperty('settings') && plugin.settings.default === 'on') {
-		async.map(users, function(userObj, next) {
-			if (!userObj) {
-				return next(null, userObj);
-			}
-
-			if (userObj.picture === '') {
-				if (!userObj.email) {
-					db.getObjectField('user:' + userObj.uid, 'email', function(err, email) {
-						userObj.picture = getGravatarUrl(email, userObj.username);
-						next(null, userObj);
-					});
-				} else {
-					userObj.picture = getGravatarUrl(userObj.email, userObj.username);
-					next(null, userObj);
+plugin.GetUsers = function(users, callback) {
+		try {
+			users.forEach(function(user) {
+				if (user && typeof user.picture == 'object') {
+					user.picture = getAvatarUrl(user.username);
 				}
-			} else {
-				setImmediate(next, null, userObj);
-			}
-		}, callback);
-	} else {
-		// No transformation
-		callback(null, users);
-	}
-}
-
-function getGravatarUrl(userEmail, username) {
-	var email = userEmail || "",
-		size = parseInt(meta.config.profileImageDimension, 10) || 128,
-		baseUrl = 'https://www.gravatar.com/avatar/' + sum(email) + '?size=192',
-		customDefault = plugin.settings.customDefault;
-
-	if (customDefault) {
-		// If custom avatar provider is a URL, replace possible variables with values.
-		if (customDefault.indexOf('http') == 0) { //Use explicit check for increased readability.
-			customDefault = customDefault.replace(/%md5/i, sum(email));
-			customDefault = customDefault.replace(/%email/i, email);
-			customDefault = customDefault.replace(/%user/i, username);
-			customDefault = customDefault.replace(/%size/i, size);
+			});
+		} catch(ex) {
+			return callback(ex);
 		}
-		baseUrl += '&d=' + encodeURIComponent(customDefault);
-	} else if (plugin.settings.iconDefault) {
-		baseUrl += '&d=' + plugin.settings.iconDefault;
-	}
+		return callback(null, users);
+	};
 
+function getAvatarUrl(username) {
+	var size = parseInt(meta.config.profileImageDimension, 10) || 128,
+		baseUrl = 'https://minotar.net/avatar/' + username + '/'+size;
 	return baseUrl;
 };
-
-function sum(email) {
-	var md5sum = crypto.createHash('md5');
-	md5sum.update(email);
-	md5sum = md5sum.digest('hex');
-	return md5sum;
-}
 
 module.exports = plugin;
