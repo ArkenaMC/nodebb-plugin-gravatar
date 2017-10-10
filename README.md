@@ -1,9 +1,12 @@
 # nodebb-plugin-minotar
 
-This is a crude fork of the awesome [nodebb-plugin-gravatar](https://github.com/julianlam/nodebb-plugin-gravatar) but I have removed all the settings pages and stuff and fixed it so it only uses minotar.
+![Demo image](http://danny.adamxp12.com/ApplicationFrameHost_2017-10-10_11-02-20.png "Demo Image")
+
+This is a crude fork of the awesome [nodebb-plugin-gravatar](https://github.com/julianlam/nodebb-plugin-gravatar) it allows you to use the minotar service to get avatars instead of relying on users to upload or using Gravatar.
 
 Designed for the Arkena Minecraft network forums as we wanted users to have their minecraft avatars as their forum avatars.
 
-Future improvements will be a way to force users to use Minotar. but I am sorta new to NodeBB so have have not tackled setting pages or anything.
+This fork while has been tested and proven to be decently stable it is a mod of an awesome so I dont see why it should have any major issues but feel free to report any and I will do my best to resolve it.
 
-This fork is not really designed for production use unless you know what your doing as its not a very good mod if I am being honest.
+To install type this in your nodebb root directory
+`npm i nodebb-plugin-minotar`
