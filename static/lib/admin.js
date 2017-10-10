@@ -1,18 +1,18 @@
 'use strict';
 /* globals $, app, socket */
 
-define('admin/plugins/gravatar', ['settings'], function(Settings) {
+define('admin/plugins/minotar', ['settings'], function(Settings) {
 
 	var ACP = {};
 
 	ACP.init = function() {
-		Settings.load('gravatar', $('.gravatar-settings'));
+		Settings.load('minotar', $('.minotar-settings'));
 
 		$('#save').on('click', function() {
-			Settings.save('gravatar', $('.gravatar-settings'), function() {
+			Settings.save('minotar', $('.minotar-settings'), function() {
 				app.alert({
 					type: 'success',
-					alert_id: 'gravatar-saved',
+					alert_id: 'minotar-saved',
 					title: 'Settings Saved',
 					message: 'Please reload your NodeBB to apply these settings',
 					clickfn: function() {
