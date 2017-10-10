@@ -1,6 +1,6 @@
 {
   "name": "nodebb-plugin-minotar",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Allows users to use their Minecraft avatar for your NodeBB forum",
   "main": "library.js",
   "repository": {
@@ -10,7 +10,7 @@
   "keywords": [
     "nodebb",
     "plugin",
-    "gravatar"
+    "minotar"
   ],
   "author": {
     "name": "Adam Blunt",
