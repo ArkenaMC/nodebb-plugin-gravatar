@@ -1,6 +1,6 @@
 # nodebb-plugin-minotar
 
-![Demo image](https://bluntlabimg.azureedge.net/images/2017/10/10/ApplicationFrameHost_2017-10-10_11-02-20.png "Demo Image")
+![Demo image](http://danny.adamxp12.com/ApplicationFrameHost_2017-10-10_11-02-20.png "Demo Image")
 
 This is a crude fork of the awesome [nodebb-plugin-gravatar](https://github.com/julianlam/nodebb-plugin-gravatar) it allows you to use the minotar service to get avatars instead of relying on users to upload or using Gravatar.
 
